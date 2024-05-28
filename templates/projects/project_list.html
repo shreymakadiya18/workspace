@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% include "./navbar.html" %}
+    <h1>Project List</h1>
+    <ul>
+        {% for project in projects %}
+            <li><a href="{% url 'task_list' project.id %}">{{ project.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

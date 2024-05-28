@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% include "./navbar.html" %}
+    <h1>Tasks for {{ project.name }}</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.name }} - {{ task.status }}
+                {% if task.status != 'Done' and task.assigned_to.user == user %}
+                    <a href="{% url 'mark_task_done' task.id %}">Mark as Done</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'project_list' %}">Back to Projects</a>
+</body>
+</html>

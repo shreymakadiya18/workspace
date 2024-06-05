@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include "./navbar.html" %}
+    <h2>{{ project.name }}</h2>
+  <p>Description: {{ project.description }}</p>
+  
+  <h3>Tasks</h3>
+  <ul>
+    {% for task in tasks %}
+      <li>{{ task }}</li>
+      <!-- Display other task details as needed -->
+    {% endfor %}
+  </ul>
+</body>
+</html>
+

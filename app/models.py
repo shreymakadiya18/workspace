@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 # Create your models here.
 
 from django.contrib.auth.models import User
@@ -42,3 +42,19 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+class Room(models.Model):
+    name = models.ForeignKey(Project, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name.name
+    
+class Message(models.Model):
+    room = models.ForeignKey(Room,on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(default=datetime.now)
+    
+    def __str__(self) -> str:
+        # return f"{self.user.user.username} at {self.timestamp}: {self.content[:20]}"
+        return self.room.name.name

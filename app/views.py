@@ -62,6 +62,10 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
+
+from django.http import HttpResponseRedirect
+
 @login_required
 def add_task(request, project_id):
     project = get_object_or_404(Project, id=project_id)
@@ -71,8 +75,23 @@ def add_task(request, project_id):
             task = form.save(commit=False)
             task.project = project
             task.save()
-            return redirect('project_list')
+            return HttpResponseRedirect(f"/projects/?active_project_id={project.id}")
     else:
         form = TaskForm()
-    return render(request, 'projects/add_task.html', {'form': form})
+    return render(request, 'projects/add_task.html', {'form': form, 'project': project})
 
+
+
+# @login_required
+# def add_task(request, project_id):
+#     project = get_object_or_404(Project, id=project_id)
+#     if request.method == 'POST':
+#         form = TaskForm(request.POST)
+#         if form.is_valid():
+#             task = form.save(commit=False)
+#             task.project = project
+#             task.save()
+#             return redirect('project_list')
+#     else:
+#         form = TaskForm()
+#     return render(request, 'projects/add_task.html', {'form': form})

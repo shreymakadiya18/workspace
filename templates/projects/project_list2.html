@@ -1,3 +1,27 @@
+{% comment %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Project List</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+  {% include "./navbar.html" %}
+  <h1>Project List</h1>
+  <ul>
+    {% for project in projects %}
+    <li><a href="{% url 'project_detail' project.id %}">{{ project.name }}</a></li>
+    {% endfor %}
+  </ul>
+</body>
+
+</html>
+
+{% endcomment %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +66,7 @@
     <div class="task-list">
       <h1>Tasks</h1>
       {% for project in projects %}
-      <ul id="tasks_{{ project.id }}" class="tasks{% if forloop.first %} active{% endif %}">
+      <ul id="tasks_{{ project.id }}" class="tasks">
         {% for task in project.tasks.all %}
         <li>
           {{ task.name }}
@@ -56,6 +80,8 @@
         {% endfor %}
         <form method="post" action="{% url 'add_task' project_id=project.id %}">
           {% csrf_token %}
+          <!-- <input type="text" name="name" placeholder="Task Name" required> -->
+          <!-- Add other task fields as needed -->
           <button type="submit">Add Task</button>
         </form>
       </ul>
@@ -72,32 +98,19 @@
 
       var tasks = document.getElementById('tasks_' + projectId);
       tasks.classList.add("active");
-
-      // Update the URL to reflect the active project without reloading
-      const url = new URL(window.location);
-      url.searchParams.set('active_project_id', projectId);
-      window.history.pushState({}, '', url);
     }
-
     document.addEventListener('DOMContentLoaded', function() {
-      // Get URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const activeProjectId = urlParams.get('active_project_id');
-
-      if (activeProjectId) {
-        toggleTasks(activeProjectId);
-      } else {
-        // Set the first project's tasks to active by default
-        var firstTaskList = document.querySelector('.task-list ul');
-        if (firstTaskList) {
-          firstTaskList.classList.add('active');
-        }
+      var firstTaskList = document.querySelector('.task-list ul');
+      if (firstTaskList) {
+        firstTaskList.classList.add('active');
       }
     });
-
-    
   </script>
 
 </body>
 
 </html>
+
+
+
+
